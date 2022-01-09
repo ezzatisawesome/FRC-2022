@@ -36,11 +36,12 @@ def main():
     pointArray = []
     for x in range(1000):
         totPoints, remainingTime = simulationNormDict(avgClimbTime, stdClimbTime, pClimbSuccess, avgCycleTime, stdCycleTime, pCycleSuccess)
+        #totPoints, remainingTime = simulationNormDictNoClimb(avgCycleTime, stdCycleTime, pCycleSuccess)
         pointArray.append(math.floor(totPoints))
     data = {}
     data['Points'] = pointArray
     sns.set_theme(style="darkgrid")
-    sns.displot(data, x='Points')
+    sns.displot(data, x='Points', discrete=True)
     plt.show()
 
 def simulation(climbTime, cycleTime):
@@ -69,9 +70,19 @@ def simulationNormDict(avgClimbTime, stdClimbTime, pClimbSuccess, avgCycleTime, 
         totPoints += 2 if (random.geometric(pCycleSuccess) == 1 ) else 0
         curCycleTime = random.normal(avgCycleTime, stdCycleTime)
 
+    return totPoints, totTime
+
+def simulationNormDictNoClimb(avgCycleTime, stdCycleTime, pCycleSuccess):
+    totTime = 215
+    totPoints = 0
+    curCycleTime = 0
+
+    while (totTime-curCycleTime > 0):
+        totTime -= curCycleTime
+        totPoints += 2 if (random.geometric(pCycleSuccess) == 1 ) else 0
+        curCycleTime = random.normal(avgCycleTime, stdCycleTime)
 
     return totPoints, totTime
-        
 
 if __name__ == '__main__': 
     main()
