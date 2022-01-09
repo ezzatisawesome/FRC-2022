@@ -1,6 +1,7 @@
 import math
 from numpy import random
-from seaborn import displot
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 points = {
     'TAXI': 2,
@@ -32,12 +33,15 @@ def main():
     avgCycleTime = 10
     stdCycleTime = 1
     pCycleSuccess = 0.8
-    pointDict = []
-    for x in range(100):
+    pointArray = []
+    for x in range(1000):
         totPoints, remainingTime = simulationNormDict(avgClimbTime, stdClimbTime, pClimbSuccess, avgCycleTime, stdCycleTime, pCycleSuccess)
-        pointDict.append(math.floor(totPoints))
-    displot()
-    print(pointDict)
+        pointArray.append(math.floor(totPoints))
+    data = {}
+    data['Points'] = pointArray
+    sns.set_theme(style="darkgrid")
+    sns.displot(data, x='Points')
+    plt.show()
 
 def simulation(climbTime, cycleTime):
     totPoints = 0
